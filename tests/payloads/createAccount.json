@@ -1,0 +1,58 @@
+{
+  "data": {
+    "attributes": {
+      "accountHolder": {
+        "refid": "newcompany"
+      },
+      "organizationType": {
+        "code": "commonownership"
+      },
+      "primaryLocation": {
+        "refid": "newloc"
+      },
+      "producerCodes": [
+        {
+            "id": "{{producerCodeId}}"
+        }
+      ]
+    }
+  },
+  "included": {
+    "AccountContact": [
+      {
+        "attributes": {
+          "contactSubtype": "Company",
+          "companyName": "{{companyName}}",          
+          "primaryAddress": {
+            "addressLine1": "{{addressLine1}}",
+            "city": "{{city}}",
+            "postalCode": "{{postalCode}}",
+            "state": {
+              "code": "{{stateCode}}"
+            }
+          },
+		  "taxId": "12-3434345"
+        },
+        "method": "post",
+        "refid": "newcompany",
+        "uri": "/account/v1/accounts/this/contacts"
+      }
+    ],
+    "AccountLocation": [
+      {
+        "attributes": {
+          "locationCode": "0001",
+          "locationName": "Location 0001",
+          "nonSpecific": true,
+          "postalCode": "{{postalCode}}",
+          "state": {
+            "code": "{{stateCode}}"
+          }
+        },
+        "method": "post",
+        "refid": "newloc",
+        "uri": "/account/v1/accounts/this/locations"
+      }
+    ]
+  }
+}

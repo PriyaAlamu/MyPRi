@@ -1,0 +1,514 @@
+{
+	"info": {
+		"_postman_id": "163aa112-8ee3-4c30-be82-a4c48ba0ee68",
+		"name": "AHT collections - GW - PA - Company Account - PA Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39702877"
+	},
+	"item": [
+		{
+			"name": "Create Account - Company",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"  pm.expect(pm.response.code).to.equal(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response status code Name is Created\", () => {\r",
+							"  pm.response.to.have.status(\"Created\");\r",
+							"});\r",
+							"\r",
+							"let responsedata = pm.response.json();\r",
+							"pm.test(\"Response Properties\", function () {\r",
+							"  pm.expect(responsedata.data.attributes.id).to.be.a('string');\r",
+							"  pm.expect(responsedata.data.attributes.accountNumber).to.have.lengthOf(10);\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"accountId\",responsedata.data.attributes.id);\r",
+							"pm.environment.set(\"accountNumber\",responsedata.data.attributes.accountNumber);\r",
+							"\r",
+							"var createdAccountNumber = responsedata.data.attributes.accountNumber;\r",
+							"console.log(\"Created Account with Account Number \" + createdAccountNumber);\r",
+							"//console.log(responsedata.data.attributes.accountNumber);\r",
+							"\r",
+							"pm.variables.replaceIn('{{accountId}}');\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"/*\r",
+							" pm.test('Variable should be true', () => {\r",
+							"     const variableValue = pm.variables.get('value');\r",
+							"\r",
+							"     if (variableValue === true) {\r",
+							"         console.log('Value is true')\r",
+							"     } else if (variableValue === false) {\r",
+							"         console.log('Value is false')\r",
+							"     } else {\r",
+							"         console.log('Value is neither true or false')\r",
+							"     }\r",
+							"     pm.expect(variableValue).to.be.true\r",
+							" });*/\r",
+							"/*\r",
+							"let csvData = 'accountId,accountNumber,jobId,JobNumber';\r",
+							"\r",
+							"responseData.forEach(item =>{\r",
+							"    csvData += '${accountId},${accountNumber},${jobId},${JobNumber}\\n';\r",
+							"});\r",
+							"*/\r",
+							"/*pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Data object and its attributes structure are valid\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.have.property('data').that.is.an('object').and.not.empty;\r",
+							"    pm.expect(responseData.data).to.have.property('attributes').that.is.an('object').and.not.empty;\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('accountHolder').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('accountNumber').that.is.a('string');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('accountStatus').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('createdDate').that.is.a('string');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('frozen').that.is.a('boolean');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('id').that.is.a('string');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('numberOfContacts').that.is.a('string');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('organizationType').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('preferredCoverageCurrency').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('preferredSettlementCurrency').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('primaryLanguage').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('primaryLocale').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('primaryLocation').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('producerCodes').that.is.an('array');\r",
+							"    pm.expect(responseData).to.have.property('checksum').that.is.a('string');\r",
+							"    pm.expect(responseData).to.have.property('links').that.is.an('object').and.not.empty;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"FROZEN attribute should be present and have a boolean value\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.have.property('data');\r",
+							"    pm.expect(responseData.data).to.have.property('attributes');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('frozen').that.is.a('boolean');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Ensure that the 'producerCodes' array contains objects with 'displayName' and 'id' attributes\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"\r",
+							"  pm.expect(responseData.producerCodes).to.be.an('array');\r",
+							"  responseData.producerCodes.forEach(function (producerCode) {\r",
+							"    pm.expect(producerCode).to.be.an('object');\r",
+							"    pm.expect(producerCode).to.have.property('displayName');\r",
+							"    pm.expect(producerCode).to.have.property('id');\r",
+							"  });\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Data object and its attributes structure are valid\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.have.property('data').that.is.an('object').and.not.empty;\r",
+							"    pm.expect(responseData.data).to.have.property('attributes').that.is.an('object').and.not.empty;\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('accountHolder').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('accountNumber').that.is.a('string');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('accountStatus').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('createdDate').that.is.a('string');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('frozen').that.is.a('boolean');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('id').that.is.a('string');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('numberOfContacts').that.is.a('string');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('organizationType').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('preferredCoverageCurrency').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('preferredSettlementCurrency').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('primaryLanguage').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('primaryLocale').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('primaryLocation').that.is.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('producerCodes').that.is.an('array');\r",
+							"    pm.expect(responseData).to.have.property('checksum').that.is.a('string');\r",
+							"    pm.expect(responseData).to.have.property('links').that.is.an('object').and.not.empty;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"FROZEN attribute should be present and have a boolean value\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.have.property('data');\r",
+							"    pm.expect(responseData.data).to.have.property('attributes');\r",
+							"    pm.expect(responseData.data.attributes).to.have.property('frozen').that.is.a('boolean');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Ensure that the 'producerCodes' array contains objects with 'displayName' and 'id' attributes\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"\r",
+							"  pm.expect(responseData.producerCodes).to.be.an('array');\r",
+							"  responseData.producerCodes.forEach(function (producerCode) {\r",
+							"    pm.expect(producerCode).to.be.an('object');\r",
+							"    pm.expect(producerCode).to.have.property('displayName');\r",
+							"    pm.expect(producerCode).to.have.property('id');\r",
+							"  });\r",
+							"});\r",
+							"*/"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"/*const test1 = pm.variables.replaceIn('{{$companyName}}');\r",
+							"console.log(\"taken data from sheet and printing \" + test1);*/\r",
+							"\r",
+							"const myRequest = pm.request.toJSON().body.raw;\r",
+							"const requestData = JSON.stringify(JSON.parse(myRequest));\r",
+							"//console.log(\"Creating Account for \" + myRequest.included)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"data\": {\r\n    \"attributes\": {\r\n      \"accountHolder\": {\r\n        \"refid\": \"newcompany\"\r\n      },\r\n      \"organizationType\": {\r\n        \"code\": \"commonownership\"\r\n      },\r\n      \"primaryLocation\": {\r\n        \"refid\": \"newloc\"\r\n      },\r\n      \"producerCodes\": [\r\n        {\r\n            \"id\": \"{{producerCodeId}}\"\r\n        }\r\n      ]\r\n    }\r\n  },\r\n  \"included\": {\r\n    \"AccountContact\": [\r\n      {\r\n        \"attributes\": {\r\n          \"contactSubtype\": \"Company\",\r\n          \"companyName\": \"{{companyName}}\",          \r\n          \"primaryAddress\": {\r\n            \"addressLine1\": \"{{addressLine1}}\",\r\n            \"city\": \"{{city}}\",\r\n            \"postalCode\": \"{{postalCode}}\",\r\n            \"state\": {\r\n              \"code\": \"{{stateCode}}\"\r\n            }\r\n          },\r\n\t\t  \"taxId\": \"12-3434345\"\r\n        },\r\n        \"method\": \"post\",\r\n        \"refid\": \"newcompany\",\r\n        \"uri\": \"/account/v1/accounts/this/contacts\"\r\n      }\r\n    ],\r\n    \"AccountLocation\": [\r\n      {\r\n        \"attributes\": {\r\n          \"locationCode\": \"0001\",\r\n          \"locationName\": \"Location 0001\",\r\n          \"nonSpecific\": true,\r\n          \"postalCode\": \"{{postalCode}}\",\r\n          \"state\": {\r\n            \"code\": \"{{stateCode}}\"\r\n          }\r\n        },\r\n        \"method\": \"post\",\r\n        \"refid\": \"newloc\",\r\n        \"uri\": \"/account/v1/accounts/this/locations\"\r\n      }\r\n    ]\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{env_url}}/rest/account/v1/accounts",
+					"host": [
+						"{{env_url}}"
+					],
+					"path": [
+						"rest",
+						"account",
+						"v1",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submission Draft - Personal Auto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"let responsedata = pm.response.json();\r",
+							"pm.environment.set(\"jobId\",responsedata.data.attributes.id);\r",
+							"pm.environment.set(\"JobNumber\",responsedata.data.attributes.jobNumber);\r",
+							"/*\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate the data object and its attributes schema\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.data).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.account).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.baseState).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.jobStatus).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.jobType).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.organization).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.organizationOfService).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.policyAddress).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.policyAddress.addressType).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.policyAddress.primaryNamedInsuredAddress).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.policyAddress.state).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.preferredCoverageCurrency).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.primaryInsured).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.primaryLocation).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.producerCode).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.producerCodeOfService).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.product).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.quoteType).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.termType).to.be.an('object');\r",
+							"    pm.expect(responseData.data.attributes.uwCompany).to.be.an('object');\r",
+							"    pm.expect(responseData.data.links).to.be.an('object');\r",
+							"});\r",
+							"*/"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": {\r\n        \"attributes\": {\r\n            \"account\": {\r\n                \"id\": \"{{accountId}}\"\r\n            },\r\n            \"baseState\": {\r\n                \"code\": \"CA\"\r\n            },\r\n            \"jobEffectiveDate\": \"2024-03-26\",\r\n            \"producerCode\": {\r\n                \"displayName\": \"100-002541\",\r\n                \"id\": \"pc:6\"\r\n            },\r\n            \"product\": {\r\n                \"displayName\": \"USA Personal Auto\",\r\n                \"id\": \"USAPersonalAuto\"\r\n            },\r\n            \"termType\": {\r\n                \"code\": \"Annual\",\r\n                \"name\": \"Annual\"\r\n            },\r\n            \"uwCompany\": {\r\n                \"code\": {\r\n                    \"code\": \"default\",\r\n                    \"name\": \"Default\"\r\n                },\r\n                \"displayName\": \"Default\",\r\n                \"id\": \"apd:1\"\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{env_url}}/rest/job/v1/submissions",
+					"host": [
+						"{{env_url}}"
+					],
+					"path": [
+						"rest",
+						"job",
+						"v1",
+						"submissions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submission Coverages #2 - Personal Auto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": {\r\n        \"attributes\": {\r\n            \"clauseType\": \"coverage\",\r\n            \"id\": \"UALLiability\",\r\n            \"pattern\": {\r\n                \"displayName\": \"Liability - Bodily Injury and Property Damage\",\r\n                \"id\": \"UALLiability\"\r\n            },\r\n            \"terms\": {\r\n                \"UALLiabilityLiabPack\": {\r\n                    \"typekeyValue\": {\r\n                        \"code\": \"P5010050\",\r\n                        \"name\": \"50/100/50\"\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{env_url}}/rest/job/v1/jobs/{{jobId}}/lines/UALPersonalAutoLine/coverages",
+					"host": [
+						"{{env_url}}"
+					],
+					"path": [
+						"rest",
+						"job",
+						"v1",
+						"jobs",
+						"{{jobId}}",
+						"lines",
+						"UALPersonalAutoLine",
+						"coverages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submission Vehicle - Personal Auto Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": {\r\n        \"attributes\": {\r\n            \"bodyType\": {\r\n                \"code\": \"Bus\",\r\n                \"name\": \"Bus\"\r\n            },\r\n            \"coverableJurisdiction\": {\r\n                \"code\": \"CA\",\r\n                \"name\": \"California\"\r\n            },\r\n            \"id\": \"951\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{env_url}}/rest/job/v1/jobs/{{jobId}}/lines/UALPersonalAutoLine/personal-vehicles",
+					"host": [
+						"{{env_url}}"
+					],
+					"path": [
+						"rest",
+						"job",
+						"v1",
+						"jobs",
+						"{{jobId}}",
+						"lines",
+						"UALPersonalAutoLine",
+						"personal-vehicles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submission Quote - Personal Auto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.expect(pm.response.code).to.equal(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": {\r\n        \"attributes\": {\r\n            \"account\": {\r\n                \"id\": \"{{accountId}}\"\r\n            },\r\n            \"baseState\": {\r\n                \"code\": \"CA\"\r\n            },\r\n            \"jobEffectiveDate\": \"2024-03-26\",\r\n            \"producerCode\": {\r\n                \"displayName\": \"100-002541\",\r\n                \"id\": \"pc:6\"\r\n            },\r\n            \"product\": {\r\n                \"displayName\": \"USA Personal Auto\",\r\n                \"id\": \"USAPersonalAuto\"\r\n            },\r\n            \"termType\": {\r\n                \"code\": \"Annual\",\r\n                \"name\": \"Annual\"\r\n            },\r\n            \"uwCompany\": {\r\n                \"code\": {\r\n                    \"code\": \"default\",\r\n                    \"name\": \"Default\"\r\n                },\r\n                \"displayName\": \"Default\",\r\n                \"id\": \"apd:1\"\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{env_url}}/rest/job/v1/jobs/{{jobId}}/quote",
+					"host": [
+						"{{env_url}}"
+					],
+					"path": [
+						"rest",
+						"job",
+						"v1",
+						"jobs",
+						"{{jobId}}",
+						"quote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submission Issue - Personal Auto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"let responsedata = pm.response.json();\r",
+							"pm.environment.set(\"policyId\",responsedata.data.attributes.policy.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": {\r\n        \"attributes\": {\r\n            \"account\": {\r\n                \"id\": \"pc:SlpLJilz66qw4ejFz8LMi\"\r\n            },\r\n            \"baseState\": {\r\n                \"code\": \"CA\"\r\n            },\r\n            \"jobEffectiveDate\": \"2024-03-26\",\r\n            \"producerCode\": {\r\n                \"displayName\": \"100-002541\",\r\n                \"id\": \"pc:6\"\r\n            },\r\n            \"product\": {\r\n                \"displayName\": \"USA Personal Auto\",\r\n                \"id\": \"USAPersonalAuto\"\r\n            },\r\n            \"termType\": {\r\n                \"code\": \"Annual\",\r\n                \"name\": \"Annual\"\r\n            },\r\n            \"uwCompany\": {\r\n                \"code\": {\r\n                    \"code\": \"default\",\r\n                    \"name\": \"Default\"\r\n                },\r\n                \"displayName\": \"Default\",\r\n                \"id\": \"apd:1\"\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{env_url}}/rest/job/v1/jobs/{{jobId}}/bind-and-issue",
+					"host": [
+						"{{env_url}}"
+					],
+					"path": [
+						"rest",
+						"job",
+						"v1",
+						"jobs",
+						"{{jobId}}",
+						"bind-and-issue"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
